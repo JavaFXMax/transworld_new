@@ -19,11 +19,9 @@
       <li>
         <a href="reports/members"> Members` Vehicle statements report</a>
       </li>
-			<!--
       <li>
         <a href="reports/members/personalStatement"> Member Personal Statement</a>
       </li>
-		-->
       <li>
         <a href="reports/member/payroll"> Members statements report</a>
       </li>

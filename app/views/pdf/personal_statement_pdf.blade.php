@@ -136,27 +136,26 @@ body {
          <td style="text-decoration:underline;font-weight:bold;">Bal B/F</td>
          <td></td>
          <td>-</td>
-         <td>Total</td>
+         <td><strong>{{asMoney($member_deposits_balance)}}</strong></td>
          <td>- </td>
-         <td>Bal</td>
+         <td><strong>{{asMoney($pension_amount_balance)}}</strong></td>
          <td>-</td>
-         <td>Total</td>
+         <td><strong>{{asMoney($petrol_amount_balance)}}</strong></td>
          <td>-</td>
-         <td>Bal</td>
+         <td><strong>{{asMoney($loan_balance)}}</strong></td>
          <td>- </td>
        </tr>
+      <?php
+            $deposits_balance= $member_deposits_balance;
+            $pension_balance= $pension_amount_balance;
+            $petrol_balance =$petrol_amount_balance;
+            $loan_balances= $loan_balance;
+        ?>
        @foreach($incomes as $income)
        <tr>
          <td>{{$income->date}}</td>
          <?php
                 $vehicle= Vehicle::where('id','=',$income->vehicle_id)->get()->first();
-                if(!empty($income->loanaccount_id)){
-                  $loanaccount= Loanaccount::where('id','=',$income->loanaccount_id)->get()->first();
-                  $balance = Loantransaction::getLoanBalance($loanaccount);
-                }
-                if(empty($income->loanaccount_id)){
-                  $balance=0;
-                }
                 if(!empty($income->loantransaction_id)){
                   $loan_amount= Loantransaction::where('id','=',$income->loantransaction_id)->get()->first();
                 }
@@ -178,24 +177,36 @@ body {
                 }
                 if(!empty($income->savingtransaction_id)){
                       $saving_transaction= Savingtransaction::where('id','=',$income->savingtransaction_id)->get()->first();
-                      $saving_amount= $saving_transaction->amount;
+                      $saving_product_id= Savingaccount::where('id','=',$saving_transaction->savingaccount_id)->pluck('savingproduct_id');
+                      if($saving_product_id ===1){
+                            $member_deposits= Savingtransaction::where('id','=',$income->savingtransaction_id)->pluck('amount');
+                      }
+                      if($saving_product_id ===2){
+                            $pension_amount= Savingtransaction::where('id','=',$income->savingtransaction_id)->pluck('amount');
+                      }
                 }
                 if(empty($income->savingtransaction_id)){
-                      $saving_amount= 0;
+                      $member_deposits= 0;
+                      $pension_amount=0;
                 }
-
           ?>
          <td>{{$vehicle->regno}}</td>
-         <td>{{asMoney($saving_amount)}}</td>
-         <td>Total</td>
-         <td>{{asMoney($saving_amount)}}</td>
-         <td>Bal</td>
+         <td>{{asMoney($member_deposits)}}</td>
+         <td>{{asMoney($deposits_balance)}}</td>
+         <td>{{asMoney($pension_amount)}}</td>
+         <td>{{asMoney($pension_balance)}}</td>
          <td>{{asMoney($petrol_amount)}}</td>
-         <td>Total</td>
+         <td>{{asMoney($petrol_balance)}}</td>
          <td>{{asMoney($loan_amount)}}</td>
-         <td>{{asMoney($balance)}}</td>
+         <td>{{asMoney($loan_balances)}}</td>
          <td>Charge</td>
        </tr>
+       <?php
+              $deposits_balance +=$member_deposits;
+              $pension_balance +=$pension_amount;
+              $petrol_balance +=$petrol_amount;
+              $loan_balances -=$loan_amount;
+        ?>
        @endforeach
     </table>
 <br>
