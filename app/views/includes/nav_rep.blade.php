@@ -5,7 +5,7 @@
                         <a href="{{ URL::to('reports') }}"><i class="glyphicon glyphicon-file fa-fw"></i> Member Reports</a>
                     </li>
                     <li>
-                        <a href="{{ URL::to('savingreports') }}"><i class="glyphicon glyphicon-file fa-fw"></i> Saving Reports</a>
+                        <a href="{{ URL::to('savingreports') }}"><i class="glyphicon glyphicon-file fa-fw"></i> Deposit Reports</a>
                     </li>
                     <li>
                         <a href="{{ URL::to('loanreports') }}"><i class="glyphicon glyphicon-file fa-fw"></i> Loan Reports</a>
@@ -18,38 +18,9 @@
                     <li>
                         <a href="{{ URL::to('expenseincomereports') }}"><i class="glyphicon glyphicon-file fa-fw"></i>Vehicle Expense/Income</a>
                     </li>
-
-
                     <li>
                         <a href="{{ URL::to('officereports') }}"><i class="glyphicon glyphicon-file fa-fw"></i>Daily Contributions</a>
                     </li>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                 </ul>
                 <!-- /#side-menu -->
             </div>

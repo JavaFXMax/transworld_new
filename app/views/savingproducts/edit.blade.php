@@ -8,7 +8,7 @@
 ?>
 <div class="row">
 	<div class="col-lg-12">
-  <h3>Update Saving Product</h3>
+  <h3>Update Deposit Product</h3>
 <hr>
 </div>
 </div>

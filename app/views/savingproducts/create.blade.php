@@ -13,7 +13,7 @@ function asMoney($value) {
 
 <div class="row">
 	<div class="col-lg-12">
-  <h3>New Saving Product</h3>
+  <h3>New Deposit Product</h3>
 
 <hr>
 </div>
@@ -85,7 +85,7 @@ function asMoney($value) {
 
 
         <div class="form-group">
-            <label for="username">Savings Control Account</label>
+            <label for="username">Deposits Control Account</label>
             <select class="form-control selectable" name="saving_control_acc" required>
 
                 <option></option>

@@ -7,7 +7,7 @@
   <h3>{{$savingproduct->name}}</h3>
 
 <hr>
-</div>	
+</div>
 </div>
 
 
@@ -55,7 +55,7 @@
         <td> {{$posting->transaction }}</td>
         <td>
 
-          <?php   
+          <?php
 
           $account = Account::findorfail($posting->debit_account);
 
@@ -64,7 +64,7 @@
           {{ $account->name.'('.$account->code.')'}}</td>
         <td>
 
-<?php   
+<?php
 
           $account = Account::findorfail($posting->credit_account);
 
@@ -113,26 +113,5 @@
   </div>
 
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 @stop

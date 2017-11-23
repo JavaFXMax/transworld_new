@@ -51,7 +51,7 @@ function asMoney($value) {
 	<div class="col-lg-12">
   <strong>Member: {{ $member->name }}</strong><br>
   <strong>Member #: {{ $member->membership_no }}</strong><br>
-<strong>Savings Account #: {{ $savingaccount->account_number }}</strong><br>
+<strong>Deposit Account #: {{ $savingaccount->account_number }}</strong><br>
 <strong>Account Balance #: {{ asMoney($balance) }}</strong><br>
 @if($balance > Savingtransaction::getWithdrawalCharge($savingaccount))
 <strong>Available Balance #: {{ asMoney($balance - Savingtransaction::getWithdrawalCharge($savingaccount)) }}</strong><br>

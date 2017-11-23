@@ -17,7 +17,7 @@
 											<div class="col-md-2">
 												<a class="btn btn-default btn-icon input-block-level" href="{{ URL::to('savingproducts')}}">
 													<i class="fa fa-home fa-2x"></i>
-													<div>{{{ Lang::get('messages.dashboard.savings') }}}</div>
+													<div>Manage Deposits</div>
 
 												</a>
 											</div>

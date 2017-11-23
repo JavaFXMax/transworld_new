@@ -4,7 +4,7 @@
 
 <div class="row">
 	<div class="col-lg-12">
-  <h3>New Saving Product</h3>
+  <h3>New Deposit Product</h3>
 
 <hr>
 </div>
@@ -33,7 +33,7 @@
 
 
         <div class="form-group">
-            <label for="username">Saving Product</label>
+            <label for="username">Deposit Product</label>
             <select class="form-control selectable" name="savingproduct_id" required>
 
                 <option></option>
