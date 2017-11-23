@@ -1,14 +1,11 @@
 @extends('layouts.main')
 @section('content')
-
 <br><br>
-
 										<div class="row">
 											<div class="col-md-2">
 												<a class="btn btn-default btn-icon input-block-level" href="{{ URL::to('members')}}">
 													<i class="fa fa-users fa-2x"></i>
 													<div>{{{ Lang::get('messages.dashboard.members') }}}</div>
-
 												</a>
 											</div>
 											<div class="col-md-2">
@@ -17,7 +14,6 @@
 													<div>{{{ Lang::get('messages.dashboard.loans') }}}</div>
 												</a>
 											</div>
-
 											<div class="col-md-2">
 												<a class="btn btn-default btn-icon input-block-level" href="{{ URL::to('savingproducts')}}">
 													<i class="fa fa-home fa-2x"></i>

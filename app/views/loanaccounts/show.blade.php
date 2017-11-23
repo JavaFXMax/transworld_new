@@ -144,16 +144,22 @@ function asMoney($value) {
                   ?>
                   {{ $date }}
               </td>
-              <td>{{ asMoney($loanaccount->amount_disbursed + $loanaccount->top_up_amount)}}</td>
-              <td>{{ asMoney(Loanaccount::getInterestAmount($loanaccount))}}</td>
-              <td>{{ asMoney(Loanaccount::getLoanAmount($loanaccount))  }}</td>
-              <td>{{ asMoney(Loanaccount::getLoanAmount($loanaccount))  }}</td>
+              <?php
+                    $first_amount= $loanaccount->amount_disbursed + $loanaccount->top_up_amount;
+                    $first_rate = ($loanaccount->interest_rate)/100;
+                    $first_interest= $first_amount * $first_rate;
+                    $first_total=$first_amount + $first_interest;
+               ?>
+              <td>{{ asMoney($first_amount)}}</td>
+              <td>{{ asMoney($first_interest)}}</td>
+              <td>{{ asMoney($first_total)  }}</td>
+              <td>{{ asMoney($first_total)  }}</td>
             </tr>
             <?php
                 $date = date("d-F-Y", strtotime($loanaccount->repayment_start_date));
                 $interest = Loanaccount::getInterestAmount($loanaccount);
                 $principal = $loanaccount->amount_disbursed + $loanaccount->top_up_amount;
-                $balance = Loanaccount::getLoanAmount($loanaccount);
+                $balance = $first_total;
                 $days = 30;
                 $totalint =0;
                 if($loanaccount->repayment_duration !=null){

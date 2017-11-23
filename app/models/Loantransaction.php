@@ -33,7 +33,6 @@ class Loantransaction extends \Eloquent {
 					$loanamount = Loanaccount::getLoanAmount($loanaccount);
 					$balance = $loanamount - $payments;
 					**********************************************/
-					/*Get Last Transaction*/
 					$principal_bal = Loanaccount::getPrincipalBal($loanaccount);
 					$rate = $loanaccount->interest_rate/100;
 					$interest_due = $principal_bal * $rate;

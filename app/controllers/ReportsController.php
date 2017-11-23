@@ -326,19 +326,43 @@ public function combinedStatement(){
 			$to = Input::get('to');
 			$member = Member::find(Input::get('member_id'));
 			$account = Shareaccount::where('member_id','=',$member->id)->get()->first();
+			$deposits_account=Savingaccount::where('member_id','=',$member->id)->where('savingproduct_id','=',1)->get()->first();
+			$deposits_count = Savingtransaction::where('savingaccount_id','=',$deposits_account->id)
+			->whereBetween('date', array($from, $to))->where('type','=','credit')->where('void','=',0)->count();
+			$member_deposits = Savingtransaction::where('savingaccount_id','=',$deposits_account->id)
+			->whereBetween('date', array($from, $to))->where('type','=','credit')->where('void','=',0)->get();
+
+			$pensions_account=Savingaccount::where('member_id','=',$member->id)->where('savingproduct_id','=',2)->get()->first();
+			if(!empty($pensions_account)){
+						$pension_count = Savingtransaction::where('savingaccount_id','=',$pensions_account->id)
+						->whereBetween('date', array($from, $to))->where('type','=','credit')->where('void','=',0)->count();
+						$pensions = Savingtransaction::where('savingaccount_id','=',$pensions_account->id)
+						->whereBetween('date', array($from, $to))->where('type','=','credit')->where('void','=',0)->get();
+			}
+			if(empty($pensions_account)){
+				  	$pension_count =0;
+			}
+
 			$member_deposits_balance=DB::table('savingaccounts')->join('members','savingaccounts.member_id','=','members.id')
 																															->join('savingtransactions','savingaccounts.id','=','savingtransactions.savingaccount_id')
 																															->join('savingproducts','savingaccounts.savingproduct_id','=','savingproducts.id')
 																															->where('members.id','=',Input::get('member_id'))->where('savingproducts.id','=',1)
+																															->where('savingtransactions.type','=','credit')->where('savingtransactions.void','=',0)
 																															->where('savingtransactions.date','<',$from)->sum('savingtransactions.amount');
 			$pension_amount_balance=DB::table('savingaccounts')->join('members','savingaccounts.member_id','=','members.id')
 																															->join('savingtransactions','savingaccounts.id','=','savingtransactions.savingaccount_id')
 																															->join('savingproducts','savingaccounts.savingproduct_id','=','savingproducts.id')
+																															->where('savingtransactions.type','=','credit')->where('savingtransactions.void','=',0)
 																															->where('members.id','=',Input::get('member_id'))->where('savingproducts.id','=',2)
 																															->where('savingtransactions.date','<',$from)->sum('savingtransactions.amount');
 			$petrol_amount_balance= DB::table('sharetransactions')->where('pay_for','=','petrol')->where('shareaccount_id', '=', $account->id)
 			->where('type', '=', 'credit')->where('date','<',$from)->sum('amount');
+			$petrol_count= DB::table('sharetransactions')->where('pay_for','=','petrol')->where('shareaccount_id', '=', $account->id)
+			->where('type', '=', 'credit')->whereBetween('date', array($from, $to))->count();
+			$petrol_trans=  DB::table('sharetransactions')->where('pay_for','=','petrol')->where('shareaccount_id', '=', $account->id)
+			->where('type', '=', 'credit')->whereBetween('date', array($from, $to))->get();
 			$loans_counter=Loanaccount::where('member_id','=',Input::get('member_id'))->count();
+			$loans=Loanaccount::where('member_id','=',Input::get('member_id'))->get();
 			if($loans_counter >0){
 					$loanaccounts = Loanaccount::where('member_id','=',Input::get('member_id'))->get();
 					$loan_balance=0;
@@ -362,8 +386,10 @@ public function combinedStatement(){
 			}
 			$incomes = Vehicleincome::where('member_id','=',$member->id)->whereBetween('date', array($from, $to))
 			->orderBy('date')->get();
+			$income_balance=Vehicleincome::where('member_id','=',$member->id)->where('date','<',$from)->sum('amount');
 			$organization = Organization::find(1);
-			$pdf = PDF::loadView('pdf.personal_statement_pdf', compact('from','to','vehicles_count', 'vehicles','shares_amount',
+			$pdf = PDF::loadView('pdf.personal_statement_pdf', compact('from','to','vehicles_count', 'vehicles','shares_amount','income_balance',
+			'member_deposits','deposits_count','petrol_count','pension_count', 'pensions','petrol_trans','loans_counter','loans',
 			'shares_status','incomes','organization', 'member','member_deposits_balance','pension_amount_balance','petrol_amount_balance','loan_balance'))
 			->setPaper('a4')->setOrientation('potrait');
 			return $pdf->stream($member->membership_number.'_'.$member->name.'_combined_personal_statement.pdf');

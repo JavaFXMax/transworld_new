@@ -40,7 +40,7 @@ class Loanrepayment extends \Eloquent {
 					$start_date= $loanaccount->repayment_start_date;
 					$start_month= date('m',strtotime($start_date));
 					$start_year= date('Y',strtotime($start_date));
-					$balance= Loantransaction::getLoanBalance($loanaccount);
+					$balance= Loanaccount::getPrincipalBal($loanaccount);
 					$last_month_date= date('t',strtotime($date));
 					$principal_due = Loanaccount::getLoanAmount($loanaccount) / $loanaccount->repayment_duration;
 					$interest_due = Loantransaction::getInterestDue($loanaccount);
@@ -77,6 +77,7 @@ class Loanrepayment extends \Eloquent {
 							$transaction->save();
 							/*Looping through the days*/
 							$start_date= date('Y-m-d', strtotime($start_date.'+30 days'));
+							$balance +=$interest_supposed_to_pay;
 						}
 					}
 					/*************************************************************************

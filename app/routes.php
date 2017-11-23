@@ -1,5 +1,24 @@
 <?php
 
+Route::get('/samplepdf', function(){
+      $organization= Organization::find(1);
+      $members=Member::all();
+      $counter=DB::table('members')->count();
+      $view = \View::make('pdf.memberlist',compact('members','organization'));
+      $html = $view->render();
+      if($counter > 75){
+            $pdf = new TCPDF('L');
+      }
+      if($counter <= 75){
+            $pdf = new TCPDF('P');
+      }
+      $pdf->SetTitle('Hello World');
+      $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+      $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
+      $pdf->AddPage();
+      $pdf->writeHTML($html, true, false, true, false, ' ');
+      $pdf->Output('hello_world.pdf');
+});
 Route::get('/', function()
 {
     $count = count(User::all());
